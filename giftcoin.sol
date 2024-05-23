@@ -80,6 +80,18 @@ contract Giftcoin is
         return _userGiftCards[user];
     }
 
+    function getAddressGiftCardWorth(address user) external view returns (uint256) {
+        uint256[] memory giftCards = _userGiftCards[user];
+        uint256 totalWorth = 0;
+
+        for (uint256 i = 0; i < giftCards.length; i++) {
+            uint256 tokenId = giftCards[i];
+            totalWorth += _giftCardAmounts[tokenId];
+        }
+
+        return totalWorth;
+    }
+
     function redeemGiftCard(uint256 tokenId) external {
         require(ownerOf(tokenId) == msg.sender);
         uint256 amount = _giftCardAmounts[tokenId];
@@ -89,20 +101,6 @@ contract Giftcoin is
         emit GiftCardRedeemed(tokenId, msg.sender);
     }
 
-    function bridgeToFilecoin(uint256 amount, bool useETH) external payable {
-        require(amount > 0, "Bridge amount must be greater than zero");
-
-        if (useETH) {
-            require(
-                msg.value == amount,
-                "ETH amount must match the bridge amount"
-            );
-            // Implement the bridging logic for ETH to Filecoin blockchain
-        } else {
-            _usdcToken.transferFrom(msg.sender, address(this), amount);
-            // Implement the bridging logic for USDC to Filecoin blockchain
-        }
-    }
 
     function generateTokenURI(
         uint256 tokenId,
