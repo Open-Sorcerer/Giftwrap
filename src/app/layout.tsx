@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import Providers from "./providers";
+import { Navbar } from "@/components";
 
 export const metadata: Metadata = {
   title: "Gift Store",
@@ -16,8 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#1c1c1c]">
-        <Providers>{children}</Providers>
+      <body className="bg-[#1e1e1e]">
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
