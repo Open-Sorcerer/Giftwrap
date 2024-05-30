@@ -62,7 +62,7 @@ export default function Discover() {
         </div>
       )}
       <Dialog isEnabled={isEnabled} setOutsideClick={setIsEnabled} setFile={setSelectedFile}>
-        <div className="w-[40vw] flex flex-col p-5 gap-5 rounded-xl bg-[#1c1c1c] shadow-xl">
+        <div className="w-[80vw] sm:w-[70vw] md:w-[60vw] lg:w-[50vw] xl:w-[40vw] flex flex-col p-5 gap-5 rounded-xl bg-[#1c1c1c] shadow-xl">
           <span className="flex flex-row gap-2 items-center text-neutral-300 text-xl font-medium">
             Upload your files <FiUpload />
           </span>
