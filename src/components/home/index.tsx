@@ -13,7 +13,7 @@ export default function Hero() {
           router.push("/create");
         }}
       >
-        Gift now
+        Create Gift Card
       </button>
     </main>
   );

@@ -81,16 +81,38 @@ const Navbar = () => {
                     : "text-gray-300 hover:text-[#99e6ff]"
                 } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-[#99e6ff] md:p-0`}
               >
-                Create Gift Card
+                Gift Card
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/redeem"
+                className={`block py-2 px-3 ${
+                  pathname === "/redeem"
+                    ? "text-[#99e6ff] hover:text-white"
+                    : "text-gray-300 hover:text-[#99e6ff]"
+                } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-[#99e6ff] md:p-0`}
+              >
+                Redeem
               </Link>
             </li>
           </ul>
           <span className="flex md:hidden">
-            <ConnectButton />
+            <ConnectButton
+              showBalance={false}
+              chainStatus="none"
+              accountStatus="address"
+              label="Sign in"
+            />
           </span>
         </div>
         <span className="hidden md:flex">
-          <ConnectButton />
+          <ConnectButton
+            showBalance={false}
+            chainStatus="none"
+            accountStatus="address"
+            label="Sign in"
+          />
         </span>
       </div>
     </nav>
