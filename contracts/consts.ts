@@ -1,7 +1,7 @@
 import { createPublicClient, http } from "viem";
 import { baseSepolia } from "viem/chains";
 
-export const baseSepoliaAddress = "0x677915621dDe6bf7E4fe8bDA32BF753DD2eA6910";
+export const baseSepoliaAddress = "0xD2E3629DB78bB6c7488c3Fb4Aa4c2dCfEA83A2b9";
 
 export const publicClient = createPublicClient({
   chain: baseSepolia,
@@ -371,6 +371,38 @@ export const abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "_giftCardAmounts",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "_nextTokenId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -597,7 +629,7 @@ export const abi = [
     ],
     name: "redeemGiftCard",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {

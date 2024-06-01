@@ -18,8 +18,8 @@ contract Giftcoin is
     ERC721Burnable,
     ERC721URIStorage
 {
-    uint256 private _nextTokenId;
-    mapping(uint256 => uint256) private _giftCardAmounts;
+    uint256 public _nextTokenId;
+    mapping(uint256 => uint256) public _giftCardAmounts;
     mapping(address => uint256[]) private _userGiftCards;
     IERC20 private _usdcToken;
 
@@ -92,11 +92,11 @@ contract Giftcoin is
         return totalWorth;
     }
 
-    function redeemGiftCard(uint256 tokenId) external {
+    function redeemGiftCard(uint256 tokenId) public payable {
         require(ownerOf(tokenId) == msg.sender);
         uint256 amount = _giftCardAmounts[tokenId];
         _burn(tokenId);
-        payable(msg.sender).transfer(amount);
+        payable(owner()).transfer(amount);
 
         emit GiftCardRedeemed(tokenId, msg.sender);
     }
