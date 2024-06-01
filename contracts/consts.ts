@@ -1,7 +1,7 @@
 import { createPublicClient, http } from "viem";
 import { baseSepolia } from "viem/chains";
 
-export const baseSepoliaAddress = "0x6E549238835d091740B62D193BA7aB9755AE58Ec";
+export const baseSepoliaAddress = "0xE04FDa9CF5094878e46182cd4E684F2180CE97B7";
 
 export const publicClient = createPublicClient({
   chain: baseSepolia,
@@ -584,6 +584,11 @@ export const abi = [
       {
         internalType: "bool",
         name: "isETH",
+        type: "bool",
+      },
+      {
+        internalType: "bool",
+        name: "isRedeemable",
         type: "bool",
       },
     ],
