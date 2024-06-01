@@ -1,7 +1,7 @@
 import { createPublicClient, http } from "viem";
 import { baseSepolia } from "viem/chains";
 
-export const baseSepoliaAddress = "0xD2E3629DB78bB6c7488c3Fb4Aa4c2dCfEA83A2b9";
+export const baseSepoliaAddress = "0x4e94ca2d331B8f0Ebc1BAb6a9d19ea92Dde1e852";
 
 export const publicClient = createPublicClient({
   chain: baseSepolia,
