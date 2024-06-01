@@ -1,25 +1,81 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./card";
 import Dialog from "../shared/dialog";
 import { FiUpload } from "react-icons/fi";
 import FileUpload from "../form/fileUpload";
 import Button from "../form/button";
 import { useAccount, useReadContract } from "wagmi";
-import { abi, baseSepoliaAddress } from "../../../contracts/consts";
+import { abi, baseSepoliaAddress, publicClient } from "../../../contracts/consts";
+
+interface IGcInfo {
+  tokenId: number;
+  amount: number;
+  isETH: boolean;
+  isRedeemable: boolean;
+}
 
 export default function Discover() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [GCs, setGCs] = useState<number[]>([]);
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
+  const [GCsInfo, setGCsInfo] = useState<IGcInfo[]>([]);
   const { address } = useAccount();
 
-  const { data: NFTIds, isLoading: isDataLoading } = useReadContract({
+  const { data: NFTIds } = useReadContract({
     address: baseSepoliaAddress,
     abi: abi,
     functionName: "getUserGiftCards",
     args: [address],
   });
+
+  const getGCAmount = async (id: number): Promise<IGcInfo> => {
+    const data = (await publicClient.readContract({
+      address: baseSepoliaAddress,
+      abi: abi,
+      functionName: "_giftCardInfo",
+      args: [id],
+    })) as [number, number, boolean, boolean];
+    return {
+      tokenId: data[0],
+      amount: data[1],
+      isETH: data[2],
+      isRedeemable: data[3],
+    } as IGcInfo;
+  };
+
+  const getETHPrice = async () => {
+    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/ETH/USD", {
+      headers: {
+        "X-CoinAPI-Key": process.env.NEXT_PUBLIC_API_KEY as string,
+      },
+    });
+
+    const data = await response.json();
+    return data.rate as number;
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    console.log("NFTIds", NFTIds);
+    const getGCs = async () => {
+      const price = await getETHPrice();
+      (NFTIds as number[]).forEach(async (id: number) => {
+        const gcInfo = await getGCAmount(id);
+        setGCsInfo((prev) => [...prev, gcInfo]);
+        const amt = gcInfo.isETH
+          ? Number(gcInfo.amount) / 10 ** 18
+          : Number(gcInfo.amount) / 10 ** 6;
+        setGCs((prev) => [...prev, gcInfo.isETH ? Number((amt * price).toPrecision(2)) : amt]);
+      });
+      setIsLoading(false);
+    };
+    if (NFTIds) {
+      getGCs();
+    }
+  }, [NFTIds]);
 
   return (
     <main className="flex flex-col gap-5 pt-36 pb-20 md:pt-32 md:pb-6 px-10 md:px-24">
@@ -28,7 +84,7 @@ export default function Discover() {
           <h1 className="text-3xl lg:text-4xl text-white mb-8">Redeem Your Gift Cards 🎁</h1>
         </div>
       </div>
-      {isDataLoading ? (
+      {isLoading ? (
         <div className="flex flex-col mt-8 w-fit bg-[#141414] bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-xl shadow-md p-6">
           <div className="animate-pulse flex flex-col">
             <div className="rounded-xl bg-gradient-to-br from-indigo-400 via-amber-400 to-sky-400 w-[15rem] h-[5rem]"></div>
@@ -40,12 +96,20 @@ export default function Discover() {
         </div>
       ) : (
         <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8">
-          {(NFTIds as number[])?.length === 0 ? (
-            <p className="text-amber-400 text-xl">No gift cards found.</p>
+          {GCs?.length === 0 ? (
+            <p className="text-teal-400 text-lg">No gift cards found.</p>
           ) : (
-            (NFTIds as number[])?.map((data, index) => (
-              <Card key={index} price={10} setIsEnabled={setIsEnabled} />
-            ))
+            GCs?.map(
+              (data, index) =>
+                GCsInfo[index].isRedeemable && (
+                  <Card
+                    key={index}
+                    tokenId={GCsInfo[index].tokenId}
+                    price={data}
+                    setIsEnabled={setIsEnabled}
+                  />
+                ),
+            )
           )}
         </div>
       )}

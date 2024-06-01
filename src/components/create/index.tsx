@@ -4,8 +4,15 @@ import { SetStateAction, useEffect, useState } from "react";
 import Input from "../form/input";
 import Button from "../form/button";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { USDCABI, abi, baseSepoliaAddress, sepoliaUSDC } from "../../../contracts/consts";
+import {
+  USDCABI,
+  abi,
+  baseSepoliaAddress,
+  publicClient,
+  sepoliaUSDC,
+} from "../../../contracts/consts";
 import { parseEther, parseUnits } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 
 export default function CreateGiftCard() {
   const [recipient, setRecipient] = useState<string>("");
