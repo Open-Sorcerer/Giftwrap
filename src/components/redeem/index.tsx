@@ -6,32 +6,21 @@ import Dialog from "../shared/dialog";
 import { FiUpload } from "react-icons/fi";
 import FileUpload from "../form/fileUpload";
 import Button from "../form/button";
-
-const giftCards = [
-  {
-    price: 25,
-  },
-  {
-    price: 50,
-  },
-  {
-    price: 100,
-  },
-  {
-    price: 200,
-  },
-  {
-    price: 500,
-  },
-  {
-    price: 1000,
-  },
-];
+import { useAccount, useReadContract } from "wagmi";
+import { abi, baseSepoliaAddress } from "../../../contracts/consts";
 
 export default function Discover() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isEnabled, setIsEnabled] = useState<boolean>(false);
+  const { address } = useAccount();
+
+  const { data: NFTIds, isLoading: isDataLoading } = useReadContract({
+    address: baseSepoliaAddress,
+    abi: abi,
+    functionName: "getUserGiftCards",
+    args: [address],
+  });
+
   return (
     <main className="flex flex-col gap-5 pt-36 pb-20 md:pt-32 md:pb-6 px-10 md:px-24">
       <div className="flex items-center justify-center">
@@ -39,7 +28,7 @@ export default function Discover() {
           <h1 className="text-3xl lg:text-4xl text-white mb-8">Redeem Your Gift Cards 🎁</h1>
         </div>
       </div>
-      {isLoading ? (
+      {isDataLoading ? (
         <div className="flex flex-col mt-8 w-fit bg-[#141414] bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-xl shadow-md p-6">
           <div className="animate-pulse flex flex-col space-x-4">
             <div className="rounded-xl bg-neutral-700/80 h-48 w-[12rem]"></div>
@@ -52,11 +41,11 @@ export default function Discover() {
         </div>
       ) : (
         <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8">
-          {giftCards.length === 0 ? (
+          {(NFTIds as number[])?.length === 0 ? (
             <p className="text-teal-400 text-lg">No gift cards found.</p>
           ) : (
-            giftCards.map((data, index) => (
-              <Card key={index} price={data.price} setIsEnabled={setIsEnabled} />
+            (NFTIds as number[])?.map((data, index) => (
+              <Card key={index} price={10} setIsEnabled={setIsEnabled} />
             ))
           )}
         </div>

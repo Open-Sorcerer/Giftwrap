@@ -1,6 +1,14 @@
-const baseSepoliaAddress = "0x677915621dDe6bf7E4fe8bDA32BF753DD2eA6910";
+import { createPublicClient, http } from "viem";
+import { baseSepolia } from "viem/chains";
 
-const abi = [
+export const baseSepoliaAddress = "0x677915621dDe6bf7E4fe8bDA32BF753DD2eA6910";
+
+export const publicClient = createPublicClient({
+  chain: baseSepolia,
+  transport: http(),
+});
+
+export const abi = [
   {
     inputs: [
       {
@@ -760,6 +768,57 @@ const abi = [
     name: "unpause",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+export const sepoliaUSDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
+
+export const USDCABI = [
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "spender",
+        type: "address",
+      },
+      {
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "approve",
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+      },
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "owner",
+        type: "address",
+      },
+      {
+        name: "spender",
+        type: "address",
+      },
+    ],
+    name: "allowance",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
 ];
