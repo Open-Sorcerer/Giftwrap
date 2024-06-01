@@ -67,7 +67,6 @@ contract Giftcoin is
                 "ETH amount must match the gift card amount"
             );
         } else {
-            amount = amount * 10**_usdcDecimals;
             _usdcToken.transferFrom(msg.sender, address(this), amount);
         }
 
