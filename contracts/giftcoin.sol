@@ -19,9 +19,16 @@ contract Giftcoin is
     ERC721URIStorage
 {
     uint256 public _nextTokenId;
-    mapping(uint256 => uint256) public _giftCardAmounts;
+    mapping(uint256 => GiftCardInfo) public _giftCardInfo;
     mapping(address => uint256[]) private _userGiftCards;
     IERC20 private _usdcToken;
+    uint256 private constant _usdcDecimals = 6;
+
+    struct GiftCardInfo {
+        uint256 tokenId;
+        uint256 amount;
+        bool isETH;
+    }
 
     event GiftCardCreated(
         uint256 indexed tokenId,
@@ -60,15 +67,16 @@ contract Giftcoin is
                 "ETH amount must match the gift card amount"
             );
         } else {
+            amount = amount * 10**_usdcDecimals;
             _usdcToken.transferFrom(msg.sender, address(this), amount);
         }
 
         uint256 tokenId = _nextTokenId++;
         _safeMint(recipient, tokenId);
-        _giftCardAmounts[tokenId] = amount;
+        _giftCardInfo[tokenId] = GiftCardInfo(tokenId, amount, useETH);
         _userGiftCards[recipient].push(tokenId);
 
-        string memory tokenUri = generateTokenURI(tokenId, amount);
+        string memory tokenUri = generateTokenURI(tokenId, amount, useETH);
         _setTokenURI(tokenId, tokenUri);
 
         emit GiftCardCreated(tokenId, msg.sender, recipient, amount, useETH);
@@ -80,31 +88,38 @@ contract Giftcoin is
         return _userGiftCards[user];
     }
 
-    function getAddressGiftCardWorth(address user) external view returns (uint256) {
+    function getAddressGiftCardWorth(address user) public view returns (uint256) {
         uint256[] memory giftCards = _userGiftCards[user];
         uint256 totalWorth = 0;
 
         for (uint256 i = 0; i < giftCards.length; i++) {
             uint256 tokenId = giftCards[i];
-            totalWorth += _giftCardAmounts[tokenId];
+            GiftCardInfo memory giftCard = _giftCardInfo[tokenId];
+            uint256 amount = giftCard.isETH ? giftCard.amount : giftCard.amount / 10**_usdcDecimals;
+            totalWorth += amount;
         }
 
         return totalWorth;
     }
 
-    function redeemGiftCard(uint256 tokenId) public payable {
-        require(ownerOf(tokenId) == msg.sender);
-        uint256 amount = _giftCardAmounts[tokenId];
-        _burn(tokenId);
-        payable(owner()).transfer(amount);
 
+    function redeemGiftCard(uint256 tokenId) public payable {
+        require(ownerOf(tokenId) == msg.sender, "Not the owner of the gift card");
+        GiftCardInfo memory giftCard = _giftCardInfo[tokenId];
+        uint256 amount = giftCard.isETH ? giftCard.amount : giftCard.amount / 10**_usdcDecimals;
+        _burn(tokenId);
+        if (giftCard.isETH) {
+            payable(owner()).transfer(amount);
+        } else {
+            _usdcToken.transfer(owner(), amount * 10**_usdcDecimals);
+        }
         emit GiftCardRedeemed(tokenId, msg.sender);
     }
 
-
     function generateTokenURI(
         uint256 tokenId,
-        uint256 amount
+        uint256 amount,
+        bool isETH
     ) internal pure returns (string memory) {
         string memory svg = string(
             abi.encodePacked(
@@ -114,7 +129,8 @@ contract Giftcoin is
                 '<text x="50%" y="50%" class="base" dominant-baseline="middle" text-anchor="middle">Giftcoin Card</text>',
                 '<text x="50%" y="60%" class="base" dominant-baseline="middle" text-anchor="middle">Amount: ',
                 Strings.toString(amount),
-                " ETH/USDC</text>",
+                isETH ? " ETH" : " USDC",
+                "</text>",
                 "</svg>"
             )
         );
