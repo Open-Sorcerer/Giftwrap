@@ -75,22 +75,22 @@ export default function CreateGiftCard() {
           onChange={(e: { target: { value: SetStateAction<number> } }) => setAmount(e.target.value)}
           helper="Your gift card will be worth this amount"
         />
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-4 items-center">
           <input
             id="type"
             type="checkbox"
             name="type"
             value="usdc"
-            className="h-4 w-4"
+            className="h-5 w-5"
             checked={isChecked}
             onChange={() => setIsChecked(!isChecked)}
           />
-          <span className="text-white">Pay in ETH</span>
+          <span className="text-lg text-white">Pay in ETH</span>
         </div>
 
         <Button
           id="create"
-          title="Gift this card"
+          title={isLoading ? "Creating Gift Card" : "Send Gift"}
           onClick={async () => {
             if (isChecked) {
               await createGiftCard();

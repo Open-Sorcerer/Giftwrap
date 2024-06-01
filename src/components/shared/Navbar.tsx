@@ -20,14 +20,14 @@ const Navbar = () => {
   }, [isMobileMenuOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-opacity-20 backdrop-filter backdrop-blur-md mx-5 md:mx-16 lg:mx-20 md:px-10 my-2 border border-neutral-600 bg-[#141414]/40 rounded-xl">
-      <div className="max-w-screen-3xl flex flex-wrap items-center justify-between p-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-opacity-20 backdrop-filter backdrop-blur-md mx-5 md:mx-16 lg:mx-20 md:px-10 my-3 border border-neutral-600 bg-[#141414]/40 rounded-[3rem]">
+      <div className="max-w-screen-3xl flex flex-wrap items-center justify-between px-4 py-2">
         <div className="flex">
           <Link
             href="/"
-            className="flex flex-row gap-3 items-center text-2xl text-transparent bg-clip-text bg-gradient-to-b from-[#eef4ff] from-[20%] to-[#9dc1ff] font-title font-semibold cursor-pointer whitespace-nowrap"
+            className="flex flex-row gap-3 items-center text-2xl text-transparent bg-clip-text bg-white font-title font-semibold cursor-pointer whitespace-nowrap"
           >
-            <Image src="/giftStore.png" alt="logo" width={40} height={40} className="w-7 h-7" />
+            <Image src="/giftStore.png" alt="logo" width={40} height={40} className="w-6 h-6" />
             Gift Store
           </Link>
         </div>
@@ -64,9 +64,9 @@ const Navbar = () => {
                 href="/"
                 className={`block py-2 px-3 ${
                   pathname === "/"
-                    ? "text-[#99e6ff] hover:text-white"
-                    : "text-gray-300 hover:text-[#99e6ff]"
-                } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-[#99e6ff] md:p-0`}
+                    ? "text-amber-400 hover:text-white"
+                    : "text-gray-300 hover:text-amber-400"
+                } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-amber-400 md:p-0`}
                 aria-current="page"
               >
                 Home
@@ -77,9 +77,9 @@ const Navbar = () => {
                 href="/create"
                 className={`block py-2 px-3 ${
                   pathname === "/create"
-                    ? "text-[#99e6ff] hover:text-white"
-                    : "text-gray-300 hover:text-[#99e6ff]"
-                } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-[#99e6ff] md:p-0`}
+                    ? "text-amber-400 hover:text-white"
+                    : "text-gray-300 hover:text-amber-400"
+                } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-amber-400 md:p-0`}
               >
                 Gift Card
               </Link>
@@ -89,9 +89,9 @@ const Navbar = () => {
                 href="/redeem"
                 className={`block py-2 px-3 ${
                   pathname === "/redeem"
-                    ? "text-[#99e6ff] hover:text-white"
-                    : "text-gray-300 hover:text-[#99e6ff]"
-                } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-[#99e6ff] md:p-0`}
+                    ? "text-amber-400 hover:text-white"
+                    : "text-gray-300 hover:text-amber-400"
+                } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-amber-400 md:p-0`}
               >
                 Redeem
               </Link>

@@ -30,19 +30,18 @@ export default function Discover() {
       </div>
       {isDataLoading ? (
         <div className="flex flex-col mt-8 w-fit bg-[#141414] bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-xl shadow-md p-6">
-          <div className="animate-pulse flex flex-col space-x-4">
-            <div className="rounded-xl bg-neutral-700/80 h-48 w-[12rem]"></div>
-            <div className="block h-4 mt-5 items-start bg-gray-400 rounded w-3/4"></div>
-            <div className="flex flex-row justify-between mt-2">
-              <div className="h-6 w-16 bg-gray-300/80 rounded"></div>
-              <div className="h-8 w-20 bg-primary/50 rounded-lg"></div>
+          <div className="animate-pulse flex flex-col">
+            <div className="rounded-xl bg-gradient-to-br from-indigo-400 via-amber-400 to-sky-400 w-[15rem] h-[5rem]"></div>
+            <div className="flex flex-row justify-between items-center mt-3">
+              <div className="h-6 w-20 bg-neutral-200/80 rounded"></div>
+              <div className="h-8 w-28 bg-blue-400 rounded-lg"></div>
             </div>
           </div>
         </div>
       ) : (
         <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mt-8">
           {(NFTIds as number[])?.length === 0 ? (
-            <p className="text-teal-400 text-lg">No gift cards found.</p>
+            <p className="text-amber-400 text-xl">No gift cards found.</p>
           ) : (
             (NFTIds as number[])?.map((data, index) => (
               <Card key={index} price={10} setIsEnabled={setIsEnabled} />

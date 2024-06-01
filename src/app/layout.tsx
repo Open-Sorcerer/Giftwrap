@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#1e1e1e]">
+      <body className="bg-[url('/background.png')] bg-cover">
         <Providers>
           <Navbar />
           {children}

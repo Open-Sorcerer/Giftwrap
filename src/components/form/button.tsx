@@ -22,7 +22,7 @@ const Button = ({ id, label, title, helper, onClick, disabled }: IButton) => {
       <button
         id={id}
         onClick={onClick}
-        className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-75 hover:shadow-lg text-white py-2.5 px-10 rounded-xl w-full disabled:cursor-not-allowed"
+        className="bg-cyan-400 hover:bg-sky-400 disabled:opacity-75 hover:shadow-lg py-2.5 px-10 rounded-xl w-full disabled:cursor-not-allowed"
         disabled={disabled}
       >
         <div className="font-medium font-primary text-sm md:text-md lg:text-lg justify-center">
