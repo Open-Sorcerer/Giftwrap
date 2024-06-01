@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import Connect from "./connect";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
@@ -98,21 +98,11 @@ const Navbar = () => {
             </li>
           </ul>
           <span className="flex md:hidden">
-            <ConnectButton
-              showBalance={false}
-              chainStatus="none"
-              accountStatus="address"
-              label="Sign in"
-            />
+            <Connect />
           </span>
         </div>
         <span className="hidden md:flex">
-          <ConnectButton
-            showBalance={false}
-            chainStatus="none"
-            accountStatus="address"
-            label="Sign in"
-          />
+          <Connect />
         </span>
       </div>
     </nav>
