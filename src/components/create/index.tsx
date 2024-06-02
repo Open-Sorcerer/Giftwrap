@@ -8,6 +8,7 @@ import { USDCABI, abi, baseContractAddress, baseUSDC } from "../../../contracts/
 import { parseEther, parseUnits } from "viem";
 import FarcasterIcon from "@/icons/farcaster";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 export default function CreateGiftCard() {
   const [recipient, setRecipient] = useState<string>("");
@@ -59,15 +60,16 @@ export default function CreateGiftCard() {
         <h1 className="text-4xl lg:text-5xl text-white mb-10">Create a Gift Card</h1>
       </div>
       <div className="flex flex-col space-y-6 w-[90%] md:max-w-[600px] mx-auto">
-        <button
+        <Link
           id="frame"
-          onClick={() => {}}
+          href="https://warpcast.com/neelpatel/0x1f9d2385"
+          target="_blank"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className="flex flex-row items-center justify-center gap-4 border border-cyan-400 hover:bg-cyan-400 text-lg text-white font-medium hover:text-neutral-700 hover:shadow-lg py-3 px-10 rounded-xl w-full"
         >
           <FarcasterIcon color={isHovered ? "black" : "white"} /> Buy it from Frame
-        </button>
+        </Link>
         <div className="inline-flex items-center justify-center w-full">
           <hr className="w-full h-px my-8 bg-gradient-to-r from-transparent to-transparent via-neutral-400 border-0" />
           <span className="absolute px-3 font-medium -translate-x-1/2 left-1/2 text-white">OR</span>
