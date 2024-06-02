@@ -1,18 +1,21 @@
-import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { abi, baseSepoliaAddress } from "../../../contracts/consts";
 import { useEffect } from "react";
+import { bridgeToFil } from "@/utils/utils";
 
 interface ICard {
   price: number;
   setIsEnabled: (value: boolean) => void;
+  type: "eth" | "usdc";
   tokenId: number;
 }
 
-export default function Card({ price, setIsEnabled, tokenId }: ICard) {
+export default function Card({ price, setIsEnabled, tokenId, type }: ICard) {
   const { writeContractAsync, data: hash } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
+  const { address } = useAccount();
 
   const redeemGiftCard = async () => {
     await writeContractAsync({
@@ -24,8 +27,12 @@ export default function Card({ price, setIsEnabled, tokenId }: ICard) {
   };
 
   useEffect(() => {
-    if (isSuccess) {
+    const bridge = async () => {
+      await bridgeToFil(price.toString(), address as `0x${string}`, type);
       setIsEnabled(true);
+    };
+    if (isSuccess) {
+      bridge();
     }
   }, [isSuccess]);
 

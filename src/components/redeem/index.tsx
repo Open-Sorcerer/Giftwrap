@@ -14,6 +14,8 @@ interface IGcInfo {
   amount: number;
   isETH: boolean;
   isRedeemable: boolean;
+  createdBy: `0x${string}`;
+  receipient: `0x${string}`;
 }
 
 export default function Discover() {
@@ -37,12 +39,14 @@ export default function Discover() {
       abi: abi,
       functionName: "_giftCardInfo",
       args: [id],
-    })) as [number, number, boolean, boolean];
+    })) as [number, number, boolean, boolean, `0x${string}`, `0x${string}`];
     return {
       tokenId: data[0],
       amount: data[1],
       isETH: data[2],
       isRedeemable: data[3],
+      createdBy: data[4],
+      receipient: data[5],
     } as IGcInfo;
   };
 
@@ -107,6 +111,7 @@ export default function Discover() {
                     tokenId={GCsInfo[index].tokenId}
                     price={data}
                     setIsEnabled={setIsEnabled}
+                    type={GCsInfo[index].isETH ? "eth" : "usdc"}
                   />
                 ),
             )

@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@rainbow-me/rainbowkit':
     specifier: ^2.1.1
@@ -1884,7 +1888,7 @@ packages:
       qr-code-styling: 1.6.0-rc.1
       react: 18.0.0
       react-dom: 18.0.0(react@18.0.0)
-      react-i18next: 13.5.0(i18next@23.11.5)(react-dom@18.0.0)(react-native@0.74.1)(react@18.0.0)
+      react-i18next: 13.5.0(i18next@22.5.1)(react-dom@18.0.0)(react-native@0.74.1)(react@18.0.0)
       react-native: 0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6)(@types/react@18.0.0)(react@18.0.0)
     dev: false
 
@@ -5803,12 +5807,6 @@ packages:
       '@babel/runtime': 7.24.5
     dev: false
 
-  /i18next@23.11.5:
-    resolution: {integrity: sha512-41pvpVbW9rhZPk5xjCX2TPJi2861LEig/YRhUkY+1FQ2IQPS0bKUDYnEqY8XPPbB48h1uIwLnP9iiEfuSl20CA==}
-    dependencies:
-      '@babel/runtime': 7.24.5
-    dev: false
-
   /idb-keyval@6.2.1:
     resolution: {integrity: sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==}
     dev: false
@@ -7898,7 +7896,7 @@ packages:
       scheduler: 0.21.0
     dev: false
 
-  /react-i18next@13.5.0(i18next@23.11.5)(react-dom@18.0.0)(react-native@0.74.1)(react@18.0.0):
+  /react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.0.0)(react-native@0.74.1)(react@18.0.0):
     resolution: {integrity: sha512-CFJ5NDGJ2MUyBohEHxljOq/39NQ972rh1ajnadG9BjTk+UXbHLq4z5DKEbEQBDoIhUmmbuS/fIMJKo6VOax1HA==}
     peerDependencies:
       i18next: '>= 23.2.3'
@@ -7913,7 +7911,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.24.5
       html-parse-stringify: 3.0.1
-      i18next: 23.11.5
+      i18next: 22.5.1
       react: 18.0.0
       react-dom: 18.0.0(react@18.0.0)
       react-native: 0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6)(@types/react@18.0.0)(react@18.0.0)
