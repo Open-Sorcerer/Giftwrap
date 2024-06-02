@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Giftwrap
 
-## Getting Started
+GiftWrap is a platform that allows users to gift Filecoin storage to others using gift cards, paid for with stablecoins or native ETH on Base, bridging the gap between different blockchain networks.
 
-First, run the development server:
+### Description
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+With GiftWrap, users can easily purchase and send gift cards that represent Filecoin storage to anyone, anywhere in the world. The platform is built on the Base blockchain, allowing users to pay for their gift cards using either stablecoins or native ETH.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The core functionality of GiftWrap revolves around the creation, redemption, and bridging of gift cards. Users can choose to pay for their gift cards using either stablecoins or native ETH on the Base blockchain. The gift cards are represented as unique NFTs, each containing metadata that showcases the redeemable storage amount and the GiftWrap branding. Recipients can be specified using their ENS domain or wallet address.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Recipients of GiftWrap gift cards can easily redeem their storage via the GiftWrap website. The platform handles the bridging of funds from the Base blockchain to the Filecoin network, allowing users to seamlessly store their files using the gift card balance.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+GiftWrap aims to make decentralized storage more accessible and user-friendly by introducing a familiar concept – gift cards – to the blockchain ecosystem. By enabling users to gift storage to others and leveraging the benefits of the Base blockchain, GiftWrap increases the adoption and growth of Filecoin.
 
-## Learn More
+### How It's Made
 
-To learn more about Next.js, take a look at the following resources:
+<img src="workflow.png" alt="Workflow" width="100%"/>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The core functionality is implemented using Solidity smart contracts, which handle the creation, management, and redemption of gift cards. The smart contracts are deployed on the Base blockchain and FEVM.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The gift cards themselves are represented as ERC-721 non-fungible tokens (NFTs). Each gift card NFT contains metadata that includes the redeemable storage amount and unique branding elements. The metadata is dynamically generated using SVG and Base64 encoding techniques, allowing for visually appealing and informative gift card designs.
 
-## Deploy on Vercel
+To facilitate the bridging of funds from the Base blockchain to Filecoin, GiftWrap integrates with Squid, a cross-chain bridging solution. When users redeem their gift cards, the smart contract interacts with the Squid bridge to securely transfer the funds to the Filecoin network, enabling users to store their files using the redeemed storage balance.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The website provides a user-friendly interface for purchasing gift cards, entering recipient information (either ENS domain or wallet address), and redeeming storage.
