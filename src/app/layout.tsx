@@ -3,6 +3,7 @@ import "./globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import Providers from "./providers";
 import { Navbar } from "@/components";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Gift Store",
@@ -22,6 +23,7 @@ export default function RootLayout({
           <Navbar />
           {children}
         </Providers>
+        <Toaster />
       </body>
     </html>
   );

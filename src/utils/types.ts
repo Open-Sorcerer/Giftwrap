@@ -120,3 +120,9 @@ export interface TransactionRequest {
   maxFeePerGas: string;
   maxPriorityFeePerGas: string;
 }
+
+export interface IDb {
+  createdBy: string;
+  amount: number;
+  type: string;
+}

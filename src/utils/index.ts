@@ -1,10 +1,26 @@
 "use server";
 
-import { createWalletClient, http, parseEther, parseUnits } from "viem";
+import { createPublicClient, createWalletClient, http, parseEther, parseUnits } from "viem";
 import { Main } from "./types";
 import { base } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
-import { USDCABI } from "../../contracts/consts";
+import { USDCABI, aggregatorV3InterfaceABI, dataFeedAddress } from "../../contracts/consts";
+
+export const getETHPrice = async () => {
+  const client = createPublicClient({
+    chain: base,
+    transport: http("https://rpc.ankr.com/base"),
+  });
+
+  const dataFeed = (await client.readContract({
+    address: dataFeedAddress,
+    abi: aggregatorV3InterfaceABI,
+    args: [],
+    functionName: "latestRoundData",
+  })) as number[];
+
+  return Number((Number(dataFeed[1]) / 10 ** 8).toFixed(2));
+};
 
 export const bridgeToFil = async (
   amt: string,
@@ -70,8 +86,6 @@ export const bridgeToFil = async (
     gasPrice: BigInt(gasPrice),
   };
 
-  console.log(tx);
-
   const txResponse = await walletClient.sendTransaction({
     to: tx.to,
     data: tx.data,
@@ -80,6 +94,4 @@ export const bridgeToFil = async (
     gasPrice: tx.gasPrice,
     account,
   });
-
-  console.log(txResponse);
 };

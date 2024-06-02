@@ -1,16 +1,19 @@
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { abi, baseSepoliaAddress } from "../../../contracts/consts";
 import { useEffect } from "react";
-import { bridgeToFil } from "@/utils/utils";
+import { bridgeToFil } from "@/utils";
+import { IDb } from "@/utils/types";
 
 interface ICard {
   price: number;
   setIsEnabled: (value: boolean) => void;
   type: "eth" | "usdc";
   tokenId: number;
+  setDb: React.Dispatch<React.SetStateAction<IDb | undefined>>;
+  createdBy: string;
 }
 
-export default function Card({ price, setIsEnabled, tokenId, type }: ICard) {
+export default function Card({ price, setIsEnabled, tokenId, type, setDb, createdBy }: ICard) {
   const { writeContractAsync, data: hash } = useWriteContract();
   const { isSuccess } = useWaitForTransactionReceipt({
     hash,
@@ -50,6 +53,11 @@ export default function Card({ price, setIsEnabled, tokenId, type }: ICard) {
         <button
           onClick={() => {
             // redeemGiftCard();
+            setDb({
+              createdBy: createdBy,
+              amount: price,
+              type: type,
+            });
             setIsEnabled(true);
           }}
           className="bg-gradient-to-br from-[#4557ff] from-[20%] to-[#00a7c8] hover:from-[#3e4fea] hover:from-[20%] hover:to-[#1ca1bc] font-medium items-center rounded-lg px-4 py-1 text-white"
