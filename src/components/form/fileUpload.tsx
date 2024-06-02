@@ -2,6 +2,7 @@
 /* eslint-disable no-console -- This is a top level component */
 import React, { useState } from "react";
 import Preview from "./preview";
+import lighthouse from "@lighthouse-web3/sdk";
 
 interface FileUploadProps {
   selectedFile: File | null;
@@ -37,10 +38,17 @@ function FileUpload({ selectedFile, setSelectedFile }: FileUploadProps): React.R
     setIsDragHover(false);
   };
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleFileInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files === null) return;
 
     const file: File = e.target.files[0];
+
+    console.log("api", process.env.NEXT_PUBLIC_LH_API_KEY);
+
+    const output = await lighthouse.upload(e.target.files, process.env.NEXT_PUBLIC_LH_API_KEY!);
+
+    console.log(`https://gateway.lighthouse.storage/ipfs/${output.data.Hash}`);
+
     setSelectedFile(file);
   };
 

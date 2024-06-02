@@ -8,6 +8,7 @@ import FileUpload from "../form/fileUpload";
 import Button from "../form/button";
 import { useAccount, useReadContract } from "wagmi";
 import { abi, baseSepoliaAddress, publicClient } from "../../../contracts/consts";
+import lighthouse from "@lighthouse-web3/sdk";
 
 interface IGcInfo {
   tokenId: number;

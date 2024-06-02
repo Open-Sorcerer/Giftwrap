@@ -49,7 +49,8 @@ export default function Card({ price, setIsEnabled, tokenId, type }: ICard) {
         </span>
         <button
           onClick={() => {
-            redeemGiftCard();
+            // redeemGiftCard();
+            setIsEnabled(true);
           }}
           className="bg-gradient-to-br from-[#4557ff] from-[20%] to-[#00a7c8] hover:from-[#3e4fea] hover:from-[20%] hover:to-[#1ca1bc] font-medium items-center rounded-lg px-4 py-1 text-white"
         >
