@@ -2,13 +2,13 @@
 
 import { RainbowKitProvider, darkTheme, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { baseSepolia, arbitrumSepolia } from "wagmi/chains";
+import { baseSepolia, arbitrumSepolia, base } from "wagmi/chains";
 import { WagmiProvider } from "wagmi";
 
 const config = getDefaultConfig({
   appName: "gift-store",
   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
-  chains: [baseSepolia, arbitrumSepolia],
+  chains: [base],
   ssr: true,
 });
 

@@ -9,7 +9,7 @@ import { useAccount, useReadContract } from "wagmi";
 import {
   abi,
   aggregatorV3InterfaceABI,
-  baseSepoliaAddress,
+  baseContractAddress,
   dataFeedAddress,
   publicClient,
 } from "../../../contracts/consts";
@@ -50,7 +50,7 @@ export default function Discover() {
   const [claimed, setClaimed] = useState<IClaimed[] | undefined>([]);
 
   const { data: NFTIds } = useReadContract({
-    address: baseSepoliaAddress,
+    address: baseContractAddress,
     abi: abi,
     functionName: "getUserGiftCards",
     args: [address],
@@ -58,11 +58,12 @@ export default function Discover() {
 
   const getGCAmount = async (id: number): Promise<IGcInfo> => {
     const data = (await publicClient.readContract({
-      address: baseSepoliaAddress,
+      address: baseContractAddress,
       abi: abi,
       functionName: "_giftCardInfo",
-      args: [id],
+      args: [2],
     })) as [number, number, boolean, boolean, `0x${string}`, `0x${string}`];
+    console.log("data", data);
     return {
       tokenId: data[0],
       amount: data[1],
@@ -77,7 +78,7 @@ export default function Discover() {
     const getGCs = async () => {
       const price = await getETHPrice();
       (NFTIds as number[]).forEach(async (id: number) => {
-        const gcInfo = await getGCAmount(id);
+        const gcInfo = await getGCAmount(2);
         setGCsInfo((prev) => [...prev, gcInfo]);
         const amt = gcInfo.isETH
           ? Number(gcInfo.amount) / 10 ** 18

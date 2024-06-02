@@ -4,9 +4,10 @@ import { SetStateAction, useEffect, useState } from "react";
 import Input from "../form/input";
 import Button from "../form/button";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { USDCABI, abi, baseSepoliaAddress, sepoliaUSDC } from "../../../contracts/consts";
+import { USDCABI, abi, baseContractAddress, baseUSDC } from "../../../contracts/consts";
 import { parseEther, parseUnits } from "viem";
 import FarcasterIcon from "@/icons/farcaster";
+import toast from "react-hot-toast";
 
 export default function CreateGiftCard() {
   const [recipient, setRecipient] = useState<string>("");
@@ -26,22 +27,23 @@ export default function CreateGiftCard() {
   const createGiftCard = async () => {
     setIsLoading(true);
     await writeContractAsyncGift({
-      address: baseSepoliaAddress,
+      address: baseContractAddress,
       abi: abi,
       functionName: "createGiftCard",
       args: [recipient, parseUnits(amount.toString(), isChecked ? 18 : 6), isChecked],
       value: isChecked ? parseEther(amount.toString()) : BigInt(0),
     });
     setIsLoading(false);
+    toast.success("Gift card created successfully");
   };
 
   const approveUSDC = async () => {
     setIsLoading(true);
     await writeContractAsyncUSDC({
-      address: sepoliaUSDC,
+      address: baseUSDC,
       abi: USDCABI,
       functionName: "approve",
-      args: [baseSepoliaAddress, parseUnits(amount.toString(), 6)],
+      args: [baseContractAddress, parseUnits(amount.toString(), 6)],
     });
   };
 

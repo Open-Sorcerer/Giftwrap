@@ -1,8 +1,9 @@
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { abi, baseSepoliaAddress } from "../../../contracts/consts";
+import { abi, baseContractAddress } from "../../../contracts/consts";
 import { useEffect } from "react";
 import { bridgeToFil } from "@/utils";
 import { IDb } from "@/utils/types";
+import toast from "react-hot-toast";
 
 interface ICard {
   price: number;
@@ -22,10 +23,15 @@ export default function Card({ price, setIsEnabled, tokenId, type, setDb, create
 
   const redeemGiftCard = async () => {
     await writeContractAsync({
-      address: baseSepoliaAddress,
+      address: baseContractAddress,
       abi: abi,
       functionName: "redeemGiftCard",
       args: [tokenId],
+    });
+    setDb({
+      createdBy: createdBy,
+      amount: price,
+      type: type,
     });
   };
 
@@ -36,6 +42,7 @@ export default function Card({ price, setIsEnabled, tokenId, type, setDb, create
     };
     if (isSuccess) {
       bridge();
+      toast.success("Gift card redeemed successfully");
     }
   }, [isSuccess]);
 
@@ -52,13 +59,7 @@ export default function Card({ price, setIsEnabled, tokenId, type, setDb, create
         </span>
         <button
           onClick={() => {
-            // redeemGiftCard();
-            setDb({
-              createdBy: createdBy,
-              amount: price,
-              type: type,
-            });
-            setIsEnabled(true);
+            redeemGiftCard();
           }}
           className="bg-gradient-to-br from-[#4557ff] from-[20%] to-[#00a7c8] hover:from-[#3e4fea] hover:from-[20%] hover:to-[#1ca1bc] font-medium items-center rounded-lg px-4 py-1 text-white"
         >

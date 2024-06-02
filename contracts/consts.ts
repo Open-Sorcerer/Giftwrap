@@ -1,11 +1,13 @@
 import { createPublicClient, http } from "viem";
-import { baseSepolia } from "viem/chains";
+import { base } from "viem/chains";
 
-export const baseSepoliaAddress = "0xDAFef804CC737640a1B5e98ad8e1CeC4458a78C6";
+export const baseContractAddress = "0xb0510d245B9b9b077F67f5D4DBc863dD1b761f7B";
+
+export const baseUSDC = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
 
 export const publicClient = createPublicClient({
-  chain: baseSepolia,
-  transport: http(),
+  chain: base,
+  transport: http("https://rpc.ankr.com/base"),
 });
 
 export const abi = [
@@ -828,8 +830,6 @@ export const abi = [
     type: "function",
   },
 ];
-
-export const sepoliaUSDC = "0x036CbD53842c5426634e7929541eC2318f3dCF7e";
 
 export const USDCABI = [
   {

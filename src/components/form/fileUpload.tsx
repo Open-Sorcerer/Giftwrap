@@ -9,6 +9,7 @@ import { useAccount } from "wagmi";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { getETHPrice } from "@/utils";
+import { createClient } from "viem";
 
 interface FileUploadProps {
   selectedFile: File | null;
@@ -62,10 +63,12 @@ function FileUpload({
     const output = await lighthouse.upload(e.target.files, process.env.NEXT_PUBLIC_LH_API_KEY!);
     const createdBy = db.createdBy;
     const price = await getETHPrice();
-    // const amount = {db.type === "usdc" ? (db.amount/5.8).toPrecision(2) : ((db.amount * price)/5.8).toPrecision(2)}
-    const amount = 0;
+    const amount =
+      db.type === "usdc"
+        ? (db.amount / 5.8).toPrecision(2)
+        : ((db.amount * price) / 5.8).toPrecision(2);
     const cid = `https://gateway.lighthouse.storage/ipfs/${output.data.Hash}`;
-    const response = await setClaim(createdBy, amount, cid, address as string);
+    const response = await setClaim(createdBy, Number(amount), cid, address as string);
     if (response.status === 201) toast.success("Uploaded Successfully!");
     setRefetch((prev) => !prev);
     setCid(`https://gateway.lighthouse.storage/ipfs/${output.data.Hash}`);
