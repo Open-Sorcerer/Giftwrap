@@ -28,6 +28,9 @@ contract Giftwrap is
         uint256 tokenId;
         uint256 amount;
         bool isETH;
+        bool isRedeemable;
+        address createdBy;
+        address recipient; 
     }
 
     event GiftCardCreated(
@@ -72,7 +75,7 @@ contract Giftwrap is
 
         uint256 tokenId = _nextTokenId++;
         _safeMint(recipient, tokenId);
-        _giftCardInfo[tokenId] = GiftCardInfo(tokenId, amount, useETH);
+        _giftCardInfo[tokenId] = GiftCardInfo(tokenId, amount, useETH, true, msg.sender, recipient);
         _userGiftCards[recipient].push(tokenId);
 
         string memory tokenUri = generateTokenURI(tokenId, amount, useETH);
