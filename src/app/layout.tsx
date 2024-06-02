@@ -6,7 +6,7 @@ import { Navbar } from "@/components";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "Gift Store",
+  title: "GiftWrap",
   description: "Gift storage to your frend, pay on any chain and get deals on FIL",
   icons: "/giftStore.png",
 };

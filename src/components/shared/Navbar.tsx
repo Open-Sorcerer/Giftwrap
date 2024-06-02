@@ -28,7 +28,7 @@ const Navbar = () => {
             className="flex flex-row gap-3 items-center text-2xl text-transparent bg-clip-text bg-white font-title font-semibold cursor-pointer whitespace-nowrap"
           >
             <Image src="/giftStore.png" alt="logo" width={40} height={40} className="w-6 h-6" />
-            Gift Store
+            GiftWrap
           </Link>
         </div>
         <button
