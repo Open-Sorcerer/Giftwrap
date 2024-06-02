@@ -7,8 +7,16 @@ import { FiUpload } from "react-icons/fi";
 import FileUpload from "../form/fileUpload";
 import Button from "../form/button";
 import { useAccount, useReadContract } from "wagmi";
-import { abi, baseSepoliaAddress, publicClient } from "../../../contracts/consts";
+import {
+  abi,
+  aggregatorV3InterfaceABI,
+  baseSepoliaAddress,
+  dataFeedAddress,
+  publicClient,
+} from "../../../contracts/consts";
 import lighthouse from "@lighthouse-web3/sdk";
+import { createPublicClient, http } from "viem";
+import { base } from "viem/chains";
 
 interface IGcInfo {
   tokenId: number;
@@ -52,14 +60,19 @@ export default function Discover() {
   };
 
   const getETHPrice = async () => {
-    const response = await fetch("https://rest.coinapi.io/v1/exchangerate/ETH/USD", {
-      headers: {
-        "X-CoinAPI-Key": process.env.NEXT_PUBLIC_API_KEY as string,
-      },
+    const client = createPublicClient({
+      chain: base,
+      transport: http("https://rpc.ankr.com/base"),
     });
 
-    const data = await response.json();
-    return data.rate as number;
+    const dataFeed = (await client.readContract({
+      address: dataFeedAddress,
+      abi: aggregatorV3InterfaceABI,
+      args: [],
+      functionName: "latestRoundData",
+    })) as number[];
+
+    return Number((Number(dataFeed[1]) / 10 ** 8).toFixed(2));
   };
 
   useEffect(() => {
