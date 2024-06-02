@@ -61,7 +61,7 @@ export default function Discover() {
       address: baseContractAddress,
       abi: abi,
       functionName: "_giftCardInfo",
-      args: ["2"],
+      args: [id],
     })) as [number, number, boolean, boolean, `0x${string}`, `0x${string}`];
     console.log("data", data);
     return {
@@ -78,7 +78,7 @@ export default function Discover() {
     const getGCs = async () => {
       const price = await getETHPrice();
       (NFTIds as number[]).forEach(async (id: number) => {
-        const gcInfo = await getGCAmount(2);
+        const gcInfo = await getGCAmount(id);
         setGCsInfo((prev) => [...prev, gcInfo]);
         const amt = gcInfo.isETH
           ? Number(gcInfo.amount) / 10 ** 18
