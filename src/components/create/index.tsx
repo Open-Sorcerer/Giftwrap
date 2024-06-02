@@ -4,21 +4,16 @@ import { SetStateAction, useEffect, useState } from "react";
 import Input from "../form/input";
 import Button from "../form/button";
 import { useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import {
-  USDCABI,
-  abi,
-  baseSepoliaAddress,
-  publicClient,
-  sepoliaUSDC,
-} from "../../../contracts/consts";
+import { USDCABI, abi, baseSepoliaAddress, sepoliaUSDC } from "../../../contracts/consts";
 import { parseEther, parseUnits } from "viem";
-import { privateKeyToAccount } from "viem/accounts";
+import FarcasterIcon from "@/icons/farcaster";
 
 export default function CreateGiftCard() {
   const [recipient, setRecipient] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const { writeContractAsync: writeContractAsyncGift } = useWriteContract();
 
@@ -62,6 +57,19 @@ export default function CreateGiftCard() {
         <h1 className="text-4xl lg:text-5xl text-white mb-10">Create a Gift Card</h1>
       </div>
       <div className="flex flex-col space-y-6 w-[90%] md:max-w-[600px] mx-auto">
+        <button
+          id="frame"
+          onClick={() => {}}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className="flex flex-row items-center justify-center gap-4 border border-cyan-400 hover:bg-cyan-400 text-lg text-white font-medium hover:text-neutral-700 hover:shadow-lg py-3 px-10 rounded-xl w-full"
+        >
+          <FarcasterIcon color={isHovered ? "black" : "white"} /> Buy it from Frame
+        </button>
+        <div className="inline-flex items-center justify-center w-full">
+          <hr className="w-full h-px my-8 bg-gradient-to-r from-transparent to-transparent via-neutral-400 border-0" />
+          <span className="absolute px-3 font-medium -translate-x-1/2 left-1/2 text-white">OR</span>
+        </div>
         <Input
           id="recipient"
           name="recipient"
@@ -94,7 +102,6 @@ export default function CreateGiftCard() {
           />
           <span className="text-lg text-white">Pay in ETH</span>
         </div>
-
         <Button
           id="create"
           title={isLoading ? "Creating Gift Card" : "Send Gift"}

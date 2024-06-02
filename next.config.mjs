@@ -6,7 +6,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ["shuffle.dev"],
+    remotePatterns: [{ protocol: "https", hostname: "shuffle.dev" }],
   },
 };
 
