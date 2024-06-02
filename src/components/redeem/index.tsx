@@ -61,7 +61,7 @@ export default function Discover() {
       address: baseContractAddress,
       abi: abi,
       functionName: "_giftCardInfo",
-      args: [2],
+      args: ["2"],
     })) as [number, number, boolean, boolean, `0x${string}`, `0x${string}`];
     console.log("data", data);
     return {
