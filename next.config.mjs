@@ -8,6 +8,7 @@ const nextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "shuffle.dev" }],
   },
+  distDir: "build",
 };
 
 export default nextConfig;
